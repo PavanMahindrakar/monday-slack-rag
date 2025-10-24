@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7
+    container_name: monday_redis
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: ms_api
+    ports:
+      - "8080:8080"  # expose API to host for ngrok access
+    volumes:
+      - ./src:/app
+      - ./data:/data
+      - ./cache:/app/cache
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - REDIS_URL=redis://redis:6379  # 👈 redis hostname (container name)
+    depends_on:
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: ms_worker
+    command: ["python", "worker/worker_start.py"]
+    volumes:
+      - ./src:/app
+      - ./data:/data
+      - ./cache:/app/cache
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis

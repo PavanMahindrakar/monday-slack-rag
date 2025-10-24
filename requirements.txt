@@ -1,0 +1,33 @@
+# fastapi
+# uvicorn[standard]
+# requests
+# python-dotenv
+# redis
+# rq
+# transformers
+# sentence-transformers
+# faiss-cpu
+# numpy
+# pydantic
+# python-multipart
+# torch    # needed by transformers (CPU/GPU as per your machine)
+# transformers==4.44.2
+# torch==2.4.0
+# rq-scheduler
+# pytz
+
+fastapi
+uvicorn[standard]
+requests
+python-dotenv
+redis
+rq
+transformers==4.44.2
+sentence-transformers
+faiss-cpu
+numpy
+pydantic
+python-multipart
+torch==2.4.0
+rq-scheduler
+pytz
